@@ -1,6 +1,8 @@
 Particle[] particles = new Particle[300];
-Boolean right = false;
-Boolean left = false;
+Boolean boolRight = false;
+Boolean boolLeft = false;
+Boolean boolUp = false;
+Boolean boolDown = false;
 void setup()
 {
 	size(600,600);
@@ -17,6 +19,14 @@ void draw()
 	for(int i = 0; i < particles.length; i++){
 		particles[i].move();
 		particles[i].show();
+		if(boolRight)
+			particles[i].right();
+		if(boolLeft)
+			particles[i].left();
+		if(boolDown)
+			particles[i].down();
+		if(boolUp)
+			particles[i].up();
 	}
 }
 class NormalParticle implements Particle
@@ -54,6 +64,12 @@ class NormalParticle implements Particle
 	public void left(){
 		xPos += parSpeed;
 	}
+	public void up(){
+		yPos += parSpeed;
+	}
+	public void down(){
+		yPos -= parSpeed;
+	}
 }
 interface Particle
 {
@@ -61,6 +77,8 @@ interface Particle
 	public void move();
 	public void right();
 	public void left();
+	public void up();
+	public void down();
 }
 class OddballParticle implements Particle
 {
@@ -83,14 +101,56 @@ class OddballParticle implements Particle
 	public void left(){
 
 	}
+	public void up(){
+
+	}
+	public void down(){
+
+	}
 }
 class JumboParticle //uses inheritance
 {
 	//your code here
 }
-void MousePressed(){
+void keyPressed(){
+	if(keyCode == 40){
+		boolDown = true;
+		boolLeft = false;
+		boolUp = false;
+		boolRight = false;
+	}
+	if(keyCode == 38){
+		boolUp = true;
+		boolRight = false;
+		boolLeft = false;
+		boolDown = false;
+	}
 	if(keyCode == 39){
-		right = true
+		boolRight = true;
+		boolLeft = false;
+		boolDown = false;
+		boolUp = false;
+	}
+	if(keyCode == 37){
+		boolLeft = true;
+		boolRight = false;
+		boolDown = false;
+		boolUp = false;
 	}
 }
+void keyReleased(){
+	if(keyCode == 39){
+		boolRight = false;
+	}
+	if(keyCode == 37){
+		boolLeft = false;
+	}
+	if(keyCode == 38){
+		boolUp = false;
+	}
+	if(keyCode == 40){
+		boolDown = false;
+	}
+}
+
 
