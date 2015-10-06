@@ -8,8 +8,9 @@ void setup()
 	size(600,600);
 	background(0);
 	particles[0] = new OddballParticle(300,300);
-	for(int i = 1; i < particles.length; i++){
-		particles[i]= new NormalParticle(300,300,Math.random()*360, Math.random()*3+1, color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255)), 2);
+	particles[1] = new JumboParticle();
+	for(int i = 2; i < particles.length; i++){
+		particles[i]= new NormalParticle();
 	}
 }
 void draw()
@@ -33,13 +34,13 @@ class NormalParticle implements Particle
 {
 	int normalColor, parSize;
 	double xPos, yPos, angle, parSpeed;
-	NormalParticle(double x, double y, double ang, double speed,int pColor, int pSize){
-		normalColor = pColor;
-		xPos = x;
-		yPos = y;
-		angle = ang;
-		parSpeed = speed;
-		parSize = pSize;
+	NormalParticle(){
+		normalColor = color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
+		xPos = 300;
+		yPos = 300;
+		angle = Math.random()*360;
+		parSpeed = Math.random()*3+1;
+		parSize = 2;
 
 	}
 	public void move(){
@@ -49,6 +50,9 @@ class NormalParticle implements Particle
 			xPos = 300;
 			yPos = 300;
 			parSize = 2;
+			angle = Math.random()*360;
+			parSpeed = Math.random()*3+1;
+			normalColor = color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
 		}
 	}
 	public void show(){
@@ -108,9 +112,15 @@ class OddballParticle implements Particle
 
 	}
 }
-class JumboParticle //uses inheritance
+class JumboParticle extends NormalParticle//uses inheritance
 {
-	//your code here
+	public void show(){
+		fill(normalColor);
+		noStroke();
+		ellipse((float)xPos, (float)yPos, parSize*10, parSize*10);
+		if((int)(xPos%20) == 0 && parSize <= 7)
+			parSize += 1;
+	}
 }
 void keyPressed(){
 	if(keyCode == 40){
