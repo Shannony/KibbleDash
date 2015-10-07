@@ -3,6 +3,8 @@ Boolean boolRight = false;
 Boolean boolLeft = false;
 Boolean boolUp = false;
 Boolean boolDown = false;
+
+int barX = 470;
 void setup()
 {
 	size(600,600);
@@ -29,6 +31,12 @@ void draw()
 		if(boolUp)
 			particles[i].up();
 	}
+	fill(255);
+	rect(430,550,150,5,10);
+	fill(255,0,0);
+	rect(barX, 547, 20,10,10);
+	fill(255);
+	text("speed", 450,570);
 }
 class NormalParticle implements Particle
 {
@@ -44,8 +52,8 @@ class NormalParticle implements Particle
 
 	}
 	public void move(){
-		xPos += parSpeed * Math.cos(angle);
-		yPos += parSpeed * Math.sin(angle);
+		xPos += parSpeed * Math.cos(angle) * (Math.abs(430-barX))/30;
+		yPos += parSpeed * Math.sin(angle) * (Math.abs(430-barX))/30;
 		if(xPos > 600 || xPos < 0 || yPos > 600 || yPos < 0){
 			xPos = 300;
 			yPos = 300;
@@ -161,6 +169,10 @@ void keyReleased(){
 	if(keyCode == 40){
 		boolDown = false;
 	}
+}
+void mouseDragged(){
+	if(mouseX >= 430 && mouseX <= 580)
+	   barX = mouseX;
 }
 
 
